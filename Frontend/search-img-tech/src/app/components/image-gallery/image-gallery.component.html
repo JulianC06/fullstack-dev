@@ -1,0 +1,98 @@
+<div class="container mt-5">
+  <h1 class="display-4 text-center">Buscador <span class="text-primary">StoreTech</span></h1>
+</div>
+
+<!--SearchBox-->
+
+<div class="search-box-container text-center">
+  <div class="search-box-content p-4 bg-light rounded">
+    <input type="text" class="form-control mb-2" placeholder="Escribe algo: con confianza ;)" [(ngModel)]="query"
+      (keyup.enter)="search()" maxlength="100">
+
+    <div ngbDropdown class="d-inline-block float-start">
+      <button type="button" class="btn btn-outline-primary btn-lg" id="filtroDropdown" ngbDropdownToggle>
+        Category
+      </button>
+
+      <div ngbDropdownMenu aria-labelledby="filtroDropdown" class="px-4 py-3">
+        <div class="form-check">
+          <input type="radio" class="form-check-input" [(ngModel)]="category" value="" (click)="loadImages('',query)"/>
+          <label class="form-check-label"> None </label>
+        </div>
+        <div class="form-check">
+          <input type="radio" class="form-check-input" [(ngModel)]="category" value="science" (click)="loadImages('science',query)" />
+          <label class="form-check-label"> Science </label>
+        </div>
+        <div class="form-check">
+          <input type="radio" class="form-check-input" [(ngModel)]="category" value="education" (click)="loadImages('education',query)"/>
+          <label class="form-check-label"> Education </label>
+        </div>
+        <div class="form-check">
+          <input type="radio" class="form-check-input" [(ngModel)]="category" value="people" (click)="loadImages('people',query)"/>
+          <label class="form-check-label"> People </label>
+        </div>
+        <div class="form-check">
+          <input type="radio" class="form-check-input" [(ngModel)]="category" value="feelings" (click)="loadImages('feelings',query)" />
+          <label class="form-check-label"> Feelings </label>
+        </div>
+        <div class="form-check">
+          <input type="radio" class="form-check-input" [(ngModel)]="category" value="computer" (click)="loadImages('computer',query)"/>
+          <label class="form-check-label"> Computer </label>
+        </div>
+        <div class="form-check">
+          <input type="radio" class="form-check-input" [(ngModel)]="category" value="buildings" (click)="loadImages('buildings',query)"/>
+          <label class="form-check-label"> Buildings </label>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary btn-lg" (click)="search()">Search</button>
+  </div>
+</div>
+
+<!--Fin SearchBox-->
+
+<!--Mostrar Img-->
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-3 mb-4" *ngFor="let image of images | paginate: { itemsPerPage: 12, currentPage: page }">
+      <div class="card">
+        <div>
+          <img src="{{ image.previewURL }}" class="card-img-top image-hover" alt="{{ image.tags }}">
+        </div>
+        <div class="overlay" (click)="openModal(image)">
+          <p class="overlay-text">Ampliar</p>
+        </div>
+        <div class="card-body">
+          <p class="card-text"><i class="fa-solid fa-heart me-1 text-danger"></i>{{ image.likes }}</p>
+          <p class="card-text"><i class="fa-solid fa-comments me-1 text-warning"></i>{{ image.comments }}</p>
+          <p class="card-text"><i class="fa-solid fa-user me-1 text-info"></i>{{ image.user }}</p>
+          <div class="tags-container">
+            <button *ngFor="let tag of image.tags.split(',')" class="btn btn-outline-secondary btn-sm me-1 mt-1">{{ tag
+              }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- mostrar la imagen ampliada -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">{{ selectedImage?.tags }}</h5>
+    <button type="button" class="btn btn-outline-danger close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    <img src="{{ selectedImage?.largeImageURL }}" alt="{{ selectedImage?.tags }}" class="img-fluid">
+  </div>
+</ng-template>
+
+<div class="text-center">
+  <pagination-controls (pageChange)="page = $event"></pagination-controls>
+</div>
+
+<!--Fin Mostrar Img-->
