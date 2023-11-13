@@ -10,6 +10,12 @@ export class ImageService {
 
   constructor(private http: HttpClient) { }
 
+  /**
+   * 
+   * @param query recibe el texto a buscar
+   * @param category recibe la categoría para filtrar
+   * @returns retorna un observable que contiene la respuesta con la lista de imagenes
+   */
   getImages(query: string, category: string): Observable<any> {
 
     

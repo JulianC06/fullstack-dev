@@ -33,16 +33,30 @@ export class ImageGalleryComponent implements OnInit {
     );
 
   }
-
+  /**
+   * @description Método que se encarga de llamar al método de cargar imagenes
+   * @returns void 
+   */
   search(): void {
     this.loadImages(this.category, this.query);
   }
 
+  /**
+   * @description Méotod encargado de abrir la ventana para visualizar la imagen en tamaño completo
+   * @param image Este parametro es la imagen que se cargará
+   * @returns void
+   */
   openModal(image: any): void {
     this.selectedImage = image;
     this.modalService.open(this.content, { centered: true });
   }
 
+  /**
+   * @description este método llama al servicio para obtener imagenes y la asigna a la variable images
+   * @param category Parametro que hace referencia a la categoría de búsqueda
+   * @param query Parametro que establece el texto de busqueda
+   * @returns void
+   */
   loadImages(category: string, query: string): void {
 
     this.imageService.getImages(query, category).subscribe(
